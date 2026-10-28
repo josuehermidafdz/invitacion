@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>¿Un cafecito/chocolate abuelita con pancito de muerto? ☕🥖</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Kalam:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        chocolate: '#3B1E14',
+                        chocolateLight: '#522C1D',
+                        kraft: '#E6D7BD',
+                        kraftDark: '#D4C2A3',
+                        cempasuchil: '#E65C00',
+                        cempasuchilWarm: '#F78B00',
+                        barro: '#A64B2A',
+                        cremaPapel: '#FAF5EB',
+                        rosaMexicano: '#D81B60',
+                    },
+                    fontFamily: {
+                        hand: ['Kalam', 'cursive'],
+                        script: ['Caveat', 'cursive'],
+                        note: ['Patrick Hand', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        body {
+            font-family: 'Kalam', cursive;
+            background-color: #2D170F;
+            background-image: radial-gradient(#3B1E14 1px, transparent 0);
+            background-size: 18px 18px;
+            color: #3B1E14;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 12px;
+            overflow-x: hidden;
+        }
+
+        .paper-card {
+            background-color: #FAF5EB;
+            background-image: radial-gradient(#E6D7BD 0.75px, transparent 0);
+            background-size: 12px 12px;
+            box-shadow: 
+                0 10px 25px -5px rgba(0,0,0,0.5),
+                0 2px 4px rgba(0,0,0,0.2),
+                inset 0 0 40px rgba(166, 75, 42, 0.08);
+            border-radius: 20px;
+            position: relative;
+            transform: rotate(-0.5deg);
+        }
+
+        .washi-tape {
+            position: absolute;
+            width: 110px;
+            height: 28px;
+            background-color: rgba(230, 92, 0, 0.75);
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255,255,255,0.2) 8px, rgba(255,255,255,0.2) 16px);
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-1.5deg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            z-index: 20;
+            opacity: 0.9;
+        }
+
+        .papel-picado-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .papel-flag {
+            flex: 1;
+            height: 22px;
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+            opacity: 0.85;
+        }
+
+        @keyframes steamRise {
+            0% { transform: translateY(0) scaleX(1); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-18px) scaleX(1.3); opacity: 0; }
+        }
+
+        .steam-line {
+            animation: steamRise 2.5s infinite ease-out;
+        }
+
+
+        #btn-yes {
+            transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), font-size 0.2s ease;
+            box-shadow: 0 5px 0 #A64B2A, 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        #btn-yes:active {
+            transform: translateY(3px) scale(0.98);
+            box-shadow: 0 2px 0 #A64B2A;
+        }
+
+        #btn-no {
+            position: absolute;
+            transition: left 0.2s ease-out, top 0.2s ease-out, transform 0.15s ease;
+            box-shadow: 0 3px 0 #522C1D;
+            z-index: 30;
+        }
+
+        .post-it {
+            background-color: #FFF2B2;
+            box-shadow: 2px 5px 12px rgba(0,0,0,0.15);
+            transform: rotate(1deg);
+        }
+    </style>
+</head>
+<body>
+
+    <main class="paper-card w-full max-w-sm p-5 sm:p-6 text-chocolate relative my-auto border-2 border-kraftDark/50">
+
+        <div class="washi-tape"></div>
+
+        <div class="papel-picado-header pt-2">
+            <div class="papel-flag bg-cempasuchil"></div>
+            <div class="papel-flag bg-rosaMexicano"></div>
+            <div class="papel-flag bg-barro"></div>
+            <div class="papel-flag bg-cempasuchilWarm"></div>
+            <div class="papel-flag bg-rosaMexicano"></div>
+        </div>
+
+        <section id="view-question" class="flex flex-col items-center text-center">
+            
+            <div class="relative my-3 w-36 h-36 flex items-center justify-center">
+               
+                <div class="absolute -top-3 flex space-x-3 text-barro/60 text-sm">
+                    <span class="steam-line" style="animation-delay: 0s;">♨️</span>
+                    <span class="steam-line" style="animation-delay: 0.8s;">♨️</span>
+                    <span class="steam-line" style="animation-delay: 1.6s;">♨️</span>
+                </div>
+       
+                <div class="w-32 h-32 bg-kraft/40 rounded-full border-2 border-dashed border-barro/50 flex items-center justify-center relative">
+                    <span class="text-6xl drop-shadow-sm transform -translate-x-1">☕</span>
+                    <span class="text-5xl drop-shadow-sm -ml-4 mt-4">🥖</span>
+                    <span class="absolute -top-1 -right-1 text-2xl">✨</span>
+                </div>
+            </div>
+
+
+            <h1 class="font-script text-3xl font-bold leading-none text-barro mb-2">
+                Un cafecito/chocolate abuelita con pan de muerto?
+            </h1>
+
+            <p class="font-note text-lg text-chocolate/90 leading-snug mb-5 px-2">
+                Mi version de dia de Muertos jaja... <br>
+                <span class="font-bold text-cempasuchil">¿Me acompañas?</span>
+            </p>
+
+            <div id="button-area" class="relative w-full h-40 bg-kraft/30 rounded-2xl border-2 border-dashed border-kraftDark p-3 flex flex-col items-center justify-center overflow-hidden mb-2">
+                
+                <button id="btn-yes" onclick="acceptInvitation()" class="w-10/12 bg-cempasuchil hover:bg-cempasuchilWarm text-cremaPapel font-hand font-bold text-xl py-3 px-5 rounded-xl border-2 border-amber-200 cursor-pointer">
+                    ¡SÍ, CLARO!
+                </button>
+
+                <!-- Botón NO (Escapista) -->
+                <button id="btn-no" onclick="handleNoClick()" onmouseenter="escapeNo()" ontouchstart="escapeNo(event)" class="bg-chocolateLight text-cremaPapel font-hand text-sm py-1.5 px-4 rounded-lg border border-chocolate cursor-pointer">
+                    <span id="text-no">No 🙈</span>
+                </button>
+
+            </div>
+
+            <p class="text-xs text-chocolate/60 font-note italic">
+                * Cuidado: El botón "No" no funciona 😉
+            </p>
+        </section>
+
+        <section id="view-success" class="hidden flex flex-col items-center text-center py-2">
+            <div class="text-5xl mb-2">🎉☕🥖</div>
+
+            <h2 class="font-script text-3xl font-bold text-barro mb-1">
+                ¡Awebo! ¡Sabía que no te resistirías! 🥰
+            </h2>
+
+            <p class="font-note text-base text-chocolate/90 mb-4">
+                El chocolate estará listo y el pan recién comprado.
+            </p>
+
+            <div class="post-it w-full p-4 rounded-lg text-left border border-amber-300 mb-4 font-note text-base text-chocolate space-y-2 relative">
+                <div class="absolute -top-3 right-4 text-xl">📌</div>
+
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">📅</span>
+                    <div>
+                        <strong class="text-xs uppercase text-barro font-bold block">¿Cuándo?</strong>
+                        <span id="field-fecha" class="font-bold">Este jueves</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 pt-1 border-t border-amber-200">
+                    <span class="text-xl">⏰</span>
+                    <div>
+                        <strong class="text-xs uppercase text-barro font-bold block">¿A qué hora?</strong>
+                        <span id="field-hora" class="font-bold">7-8pm</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 pt-1 border-t border-amber-200">
+                    <span class="text-xl">🏡</span>
+                    <div>
+                        <strong class="text-xs uppercase text-barro font-bold block">¿Dónde?</strong>
+                        <span id="field-lugar" class="font-bold">En mi casa o quedamos por mensajito</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="sendWhatsApp()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-cremaPapel font-hand font-bold text-lg py-3 px-4 rounded-xl shadow-md flex items-center justify-center gap-2 border border-emerald-500 transition active:scale-95 cursor-pointer">
+                <span>Confirmar por WhatsApp</span> 💬
+            </button>
+
+            <button onclick="toggleEditNote()" class="mt-3 text-xs text-barro underline font-note cursor-pointer">
+                ✏️ Cambiar la fecha o lugar
+            </button>
+        </section>
+
+    </main>
+
+    <div id="modal-error" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="paper-card p-5 max-w-xs text-center border-2 border-barro">
+            <div class="text-4xl mb-2">❌☕</div>
+            <h3 class="font-script text-2xl font-bold text-barro mb-2">
+                ¡Error de Sistema!
+            </h3>
+            <p class="font-note text-base text-chocolate leading-snug mb-4">
+                El chocolate Abuelita y el pan de muerto <strong>no acepta un "No"</strong> por respuesta 
+            </p>
+            <button onclick="closeError()" class="w-full bg-cempasuchil text-cremaPapel font-hand font-bold py-2 rounded-lg border border-amber-200">
+                ¡Está bien, vamos por el chocolate! 😋
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL PEQUEÑO PARA EDITAR DETALLES -->
+    <div id="modal-edit" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="paper-card p-5 max-w-xs w-full text-left border-2 border-kraftDark">
+            <h3 class="font-script text-2xl font-bold text-barro mb-3 text-center">Editar Nota📝</h3>
+            
+            <div class="space-y-3 font-note text-sm">
+                <div>
+                    <label class="block font-bold text-chocolate">Fecha:</label>
+                    <input type="text" id="input-fecha" value=" " class="w-full bg-cremaPapel border border-kraftDark rounded p-1.5 focus:outline-none focus:border-cempasuchil">
+                </div>
+                <div>
+                    <label class="block font-bold text-chocolate">Hora:</label>
+                    <input type="text" id="input-hora" value=" " class="w-full bg-cremaPapel border border-kraftDark rounded p-1.5 focus:outline-none focus:border-cempasuchil">
+                </div>
+                <div>
+                    <label class="block font-bold text-chocolate">Lugar:</label>
+                    <input type="text" id="input-lugar" value=" " class="w-full bg-cremaPapel border border-kraftDark rounded p-1.5 focus:outline-none focus:border-cempasuchil">
+                </div>
+            </div>
+
+            <div class="flex gap-2 mt-4 font-hand">
+                <button onclick="saveNote()" class="flex-1 bg-cempasuchil text-cremaPapel font-bold py-2 rounded-lg">Guardar</button>
+                <button onclick="toggleEditNote()" class="bg-kraftDark text-chocolate font-bold py-2 px-3 rounded-lg">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const btnNo = document.getElementById('btn-no');
+        const btnYes = document.getElementById('btn-yes');
+        const textNo = document.getElementById('text-no');
+        const buttonArea = document.getElementById('button-area');
+
+        let scaleYes = 1;
+        let noCount = 0;
+
+        const phrasesNo = [
+            "¿Segura? 🥺",
+            "¡Jochissssss! ☕",
+            "¡Uno nada más! 🥖",
+            "¡Anda, di que sí! ✨",
+            "¡No seas así! 🙈",
+            "¡Error! ❌",
+            "¡La tarea se hace despues! 😜"
+        ];
+
+        // Centrar inicial del botón NO
+        function resetNoPosition() {
+            btnNo.style.top = '100px';
+            btnNo.style.left = '50%';
+            btnNo.style.transform = 'translateX(-50%)';
+        }
+        resetNoPosition();
+
+        // Esquivar travieso del botón NO
+        function escapeNo(e) {
+            if (e && e.type === 'touchstart') {
+                e.preventDefault();
+            }
+
+            noCount++;
+
+            // Cambiar texto de NO
+            textNo.innerText = phrasesNo[noCount % phrasesNo.length];
+
+            // Hacer crecer botón SÍ progresivamente
+            scaleYes += 0.12;
+            if (scaleYes <= 1.8) {
+                btnYes.style.transform = `scale(${scaleYes})`;
+            }
+
+            // Reducir ligeramente el tamaño del botón NO
+            const scaleNo = Math.max(0.65, 1 - (noCount * 0.05));
+
+            // Calcular límites dentro del área recuadrada
+            const areaRect = buttonArea.getBoundingClientRect();
+            const btnRect = btnNo.getBoundingClientRect();
+
+            const padding = 10;
+            const maxX = areaRect.width - btnRect.width - padding;
+            const maxY = areaRect.height - btnRect.height - padding;
+
+            const newX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const newY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            btnNo.style.left = `${newX}px`;
+            btnNo.style.top = `${newY}px`;
+            btnNo.style.transform = `scale(${scaleNo})`;
+        }
+
+        // Si logran darle clic
+        function handleNoClick() {
+            document.getElementById('modal-error').classList.remove('hidden');
+        }
+
+        function closeError() {
+            document.getElementById('modal-error').classList.add('hidden');
+            resetNoPosition();
+        }
+
+        // Al presionar ¡SÍ!
+        function acceptInvitation() {
+            // Animación de confeti cálido
+            confetti({
+                particleCount: 60,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#E65C00', '#D81B60', '#A64B2A', '#F78B00', '#FAF5EB']
+            });
+
+            document.getElementById('view-question').classList.add('hidden');
+            document.getElementById('view-success').classList.remove('hidden');
+        }
+
+        // Modal de edición de la notita
+        function toggleEditNote() {
+            document.getElementById('modal-edit').classList.toggle('hidden');
+        }
+
+        function saveNote() {
+            document.getElementById('field-fecha').innerText = document.getElementById('input-fecha').value;
+            document.getElementById('field-hora').innerText = document.getElementById('input-hora').value;
+            document.getElementById('field-lugar').innerText = document.getElementById('input-lugar').value;
+            toggleEditNote();
+        }
+
+        // Enviar WhatsApp
+        function sendWhatsApp() {
+            const fecha = document.getElementById('field-fecha').innerText;
+            const hora = document.getElementById('field-hora').innerText;
+
+            const text = `¡Siiii! Ya dijiste acepto ☕🍞 Nos vemos: ${fecha} (${hora}).`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
